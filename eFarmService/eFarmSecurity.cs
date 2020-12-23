@@ -22,7 +22,7 @@ namespace eFarmService
 
         public static bool Login(string username, string password)                                                 
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 return entities.Users.Any(user => user.UserName.Equals(username, StringComparison.OrdinalIgnoreCase)
                                             && user.PasswordHash == password);

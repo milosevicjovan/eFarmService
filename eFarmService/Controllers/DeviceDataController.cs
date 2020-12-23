@@ -21,7 +21,7 @@ namespace eFarmService.Controllers
         //fetching latest data sent from device that current user is connected to
         public async Task<IHttpActionResult> GetData()
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
 
@@ -74,7 +74,7 @@ namespace eFarmService.Controllers
             bool water = false;
             string deviceType;
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
 
@@ -154,7 +154,7 @@ namespace eFarmService.Controllers
                 return NotFound();
             }
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
 
@@ -195,7 +195,7 @@ namespace eFarmService.Controllers
         [Route("api/device/active/{id}")]
         public async Task<IHttpActionResult> GetDeviceActivity(int id)
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = id;
 

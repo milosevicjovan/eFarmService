@@ -37,7 +37,7 @@ namespace eFarmService.Controllers
             deviceData.Time = Convert.ToDateTime(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
 
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 /* 
                     Because these request are sent from arduino devices, we don't have to check
@@ -86,7 +86,7 @@ namespace eFarmService.Controllers
         {
             string username = Thread.CurrentPrincipal.Identity.Name;
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == username).DeviceId;
 
@@ -123,7 +123,7 @@ namespace eFarmService.Controllers
                 Other settings are updated from client's side
             */
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == username).DeviceId;
 

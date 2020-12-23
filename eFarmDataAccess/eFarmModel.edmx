@@ -1,0 +1,337 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="eFarmDataModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="DeviceType" Type="nvarchar" MaxLength="100" />
+          <Property Name="DeviceLocation" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="DeviceData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Time" Type="datetime" Nullable="false" />
+          <Property Name="SoilMoisture" Type="float" />
+          <Property Name="Rain" Type="int" />
+          <Property Name="Water" Type="bit" />
+          <Property Name="Temperature" Type="float" />
+          <Property Name="Humidity" Type="float" />
+          <Property Name="Pressure" Type="float" />
+          <Property Name="Altitude" Type="float" />
+          <Property Name="DeviceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeviceSettings">
+          <Key>
+            <PropertyRef Name="DeviceId" />
+          </Key>
+          <Property Name="DeviceId" Type="int" Nullable="false" />
+          <Property Name="MoistureMin" Type="int" />
+          <Property Name="MoistureMax" Type="int" />
+          <Property Name="TemperatureMin" Type="int" />
+          <Property Name="TemperatureMax" Type="int" />
+          <Property Name="WaterPump" Type="bit" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" />
+          <Property Name="Surname" Type="nvarchar(max)" />
+          <Property Name="DeviceId" Type="int" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="datetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_DeviceData_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="DeviceData" Type="Self.DeviceData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceData">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Devices_Devices">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Device1" Type="Self.Device" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Device1">
+              <PropertyRef Name="Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceSettings_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="DeviceSettings" Type="Self.DeviceSettings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceSettings">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Users_Device">
+          <End Role="Device" Type="Self.Device" Multiplicity="1" />
+          <End Role="Users" Type="Self.Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="eFarmDataModelStoreContainer">
+          <EntitySet Name="Device" EntityType="Self.Device" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeviceData" EntityType="Self.DeviceData" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DeviceSettings" EntityType="Self.DeviceSettings" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_DeviceData_Device" Association="Self.FK_DeviceData_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="DeviceData" EntitySet="DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Devices_Devices" Association="Self.FK_Devices_Devices">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Device1" EntitySet="Device" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceSettings_Device" Association="Self.FK_DeviceSettings_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="DeviceSettings" EntitySet="DeviceSettings" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Users_Device" Association="Self.FK_Users_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="eFarmDataModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DeviceType" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceLocation" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DeviceData" Relationship="eFarmDataModel.FK_DeviceData_Device" FromRole="Device" ToRole="DeviceData" />
+          <NavigationProperty Name="DeviceSettings" Relationship="eFarmDataModel.FK_DeviceSettings_Device" FromRole="Device" ToRole="DeviceSettings" />
+          <NavigationProperty Name="Users" Relationship="eFarmDataModel.FK_Users_Device" FromRole="Device" ToRole="Users" />
+          </EntityType>
+        <EntityType Name="DeviceData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="SoilMoisture" Type="Double" />
+          <Property Name="Rain" Type="Int32" />
+          <Property Name="Water" Type="Boolean" />
+          <Property Name="Temperature" Type="Double" />
+          <Property Name="Humidity" Type="Double" />
+          <Property Name="Pressure" Type="Double" />
+          <Property Name="Altitude" Type="Double" />
+          <Property Name="DeviceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Device" Relationship="eFarmDataModel.FK_DeviceData_Device" FromRole="DeviceData" ToRole="Device" />
+        </EntityType>
+        <EntityType Name="DeviceSettings">
+          <Key>
+            <PropertyRef Name="DeviceId" />
+          </Key>
+          <Property Name="DeviceId" Type="Int32" Nullable="false" />
+          <Property Name="MoistureMin" Type="Int32" />
+          <Property Name="MoistureMax" Type="Int32" />
+          <Property Name="TemperatureMin" Type="Int32" />
+          <Property Name="TemperatureMax" Type="Int32" />
+          <Property Name="WaterPump" Type="Boolean" />
+          <NavigationProperty Name="Device" Relationship="eFarmDataModel.FK_DeviceSettings_Device" FromRole="DeviceSettings" ToRole="Device" />
+        </EntityType>
+        <EntityContainer Name="DeviceDataEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Device" EntityType="Self.Device" />
+          <EntitySet Name="DeviceData" EntityType="Self.DeviceData" />
+          <EntitySet Name="DeviceSettings" EntityType="Self.DeviceSettings" />
+          <AssociationSet Name="FK_DeviceData_Device" Association="eFarmDataModel.FK_DeviceData_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="DeviceData" EntitySet="DeviceData" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceSettings_Device" Association="eFarmDataModel.FK_DeviceSettings_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="DeviceSettings" EntitySet="DeviceSettings" />
+          </AssociationSet>
+          <EntitySet Name="Users" EntityType="eFarmDataModel.Users" />
+          <AssociationSet Name="FK_Users_Device" Association="eFarmDataModel.FK_Users_Device">
+            <End Role="Device" EntitySet="Device" />
+            <End Role="Users" EntitySet="Users" />
+          </AssociationSet>
+        </EntityContainer>
+        <Association Name="FK_DeviceData_Device">
+          <End Type="eFarmDataModel.Device" Role="Device" Multiplicity="1" />
+          <End Type="eFarmDataModel.DeviceData" Role="DeviceData" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceData">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceSettings_Device">
+          <End Type="eFarmDataModel.Device" Role="Device" Multiplicity="1" />
+          <End Type="eFarmDataModel.DeviceSettings" Role="DeviceSettings" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceSettings">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Surname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceId" Type="Int32" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Device" Relationship="eFarmDataModel.FK_Users_Device" FromRole="Users" ToRole="Device" />
+        </EntityType>
+        <Association Name="FK_Users_Device">
+          <End Type="eFarmDataModel.Device" Role="Device" Multiplicity="1" />
+          <End Type="eFarmDataModel.Users" Role="Users" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Device">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Users">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="eFarmDataModelStoreContainer" CdmEntityContainer="DeviceDataEntities">
+          <EntitySetMapping Name="Device">
+            <EntityTypeMapping TypeName="eFarmDataModel.Device">
+              <MappingFragment StoreEntitySet="Device">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="DeviceType" ColumnName="DeviceType" />
+                <ScalarProperty Name="DeviceLocation" ColumnName="DeviceLocation" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceData">
+            <EntityTypeMapping TypeName="eFarmDataModel.DeviceData">
+              <MappingFragment StoreEntitySet="DeviceData">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="SoilMoisture" ColumnName="SoilMoisture" />
+                <ScalarProperty Name="Rain" ColumnName="Rain" />
+                <ScalarProperty Name="Water" ColumnName="Water" />
+                <ScalarProperty Name="Temperature" ColumnName="Temperature" />
+                <ScalarProperty Name="Humidity" ColumnName="Humidity" />
+                <ScalarProperty Name="Pressure" ColumnName="Pressure" />
+                <ScalarProperty Name="Altitude" ColumnName="Altitude" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceSettings">
+            <EntityTypeMapping TypeName="eFarmDataModel.DeviceSettings">
+              <MappingFragment StoreEntitySet="DeviceSettings">
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="MoistureMin" ColumnName="MoistureMin" />
+                <ScalarProperty Name="MoistureMax" ColumnName="MoistureMax" />
+                <ScalarProperty Name="TemperatureMin" ColumnName="TemperatureMin" />
+                <ScalarProperty Name="TemperatureMax" ColumnName="TemperatureMax" />
+                <ScalarProperty Name="WaterPump" ColumnName="WaterPump" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="eFarmDataModel.Users">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Surname" ColumnName="Surname" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

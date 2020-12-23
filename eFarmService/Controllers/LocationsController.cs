@@ -18,7 +18,7 @@ namespace eFarmService.Controllers
         {
             int deviceId = id;
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 if (!entities.Device.Any(d => d.Id == deviceId))
                 {
@@ -53,7 +53,7 @@ namespace eFarmService.Controllers
         [Route("api/devices/locations")]
         public async Task<IHttpActionResult> Get()
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 var locations = await entities.Device
                             .Select(d =>

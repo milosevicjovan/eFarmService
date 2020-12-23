@@ -19,7 +19,7 @@ namespace eFarmService.Controllers
         [Route("api/device/current/settings")]
         public async Task<IHttpActionResult> GetSettings()
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
 
@@ -54,7 +54,7 @@ namespace eFarmService.Controllers
         public async Task<IHttpActionResult> UpdateSettings([FromBody]DeviceSettings newSettings)
         {
 
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
 

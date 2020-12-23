@@ -20,7 +20,7 @@ namespace eFarmService.Controllers
         [Route("api/users")]
         public async Task<IHttpActionResult> GetUsers()
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int deviceId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).DeviceId;
 
@@ -53,7 +53,7 @@ namespace eFarmService.Controllers
         [Route("api/users/current")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
-            using (DeviceDataEntities entities = new DeviceDataEntities())
+            using (eFarmDataEntities entities = new eFarmDataEntities())
             {
 
                 var user = await entities.Users.Include(u => u.Device).Select(u =>

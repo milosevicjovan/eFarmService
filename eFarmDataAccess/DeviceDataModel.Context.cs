@@ -13,10 +13,10 @@ namespace eFarmDataAccess
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class DeviceDataEntities : DbContext
+    public partial class eFarmDataEntities : DbContext
     {
-        public DeviceDataEntities()
-            : base("name=DeviceDataEntities")
+        public eFarmDataEntities()
+            : base("name=eFarmDataEntities")
         {
         }
     

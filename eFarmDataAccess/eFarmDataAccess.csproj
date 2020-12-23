@@ -67,10 +67,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>DeviceDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="DeviceDataModel.Designer.cs">
+    <Compile Include="eFarmModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>DeviceDataModel.edmx</DependentUpon>
+      <DependentUpon>eFarmModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="DeviceSettings.cs">
       <DependentUpon>DeviceDataModel.tt</DependentUpon>
@@ -81,27 +81,27 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="DeviceDataModel.edmx">
+    <EntityDeploy Include="eFarmModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>DeviceDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>eFarmModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="DeviceDataModel.edmx.diagram">
-      <DependentUpon>DeviceDataModel.edmx</DependentUpon>
+    <None Include="eFarmModel.edmx.diagram">
+      <DependentUpon>eFarmModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DeviceDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DeviceDataModel.edmx</DependentUpon>
+      <DependentUpon>eFarmModel.edmx</DependentUpon>
       <LastGenOutput>DeviceDataModel.Context.cs</LastGenOutput>
     </Content>
     <Content Include="DeviceDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>DeviceDataModel.edmx</DependentUpon>
+      <DependentUpon>eFarmModel.edmx</DependentUpon>
       <LastGenOutput>DeviceDataModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
