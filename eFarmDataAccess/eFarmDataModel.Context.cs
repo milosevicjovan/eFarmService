@@ -25,9 +25,25 @@ namespace eFarmDataAccess
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<ActivityCalendar> ActivityCalendar { get; set; }
+        public virtual DbSet<DeliveryTypes> DeliveryTypes { get; set; }
         public virtual DbSet<Device> Device { get; set; }
         public virtual DbSet<DeviceData> DeviceData { get; set; }
         public virtual DbSet<DeviceSettings> DeviceSettings { get; set; }
+        public virtual DbSet<Expenses> Expenses { get; set; }
+        public virtual DbSet<ExpenseTypes> ExpenseTypes { get; set; }
+        public virtual DbSet<Incomes> Incomes { get; set; }
+        public virtual DbSet<IncomeTypes> IncomeTypes { get; set; }
+        public virtual DbSet<OrderItems> OrderItems { get; set; }
+        public virtual DbSet<Orders> Orders { get; set; }
+        public virtual DbSet<OrderStatus> OrderStatus { get; set; }
+        public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
+        public virtual DbSet<Producers> Producers { get; set; }
+        public virtual DbSet<ProductCategories> ProductCategories { get; set; }
+        public virtual DbSet<Products> Products { get; set; }
+        public virtual DbSet<ProductTypes> ProductTypes { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
+        public virtual DbSet<StatusTypes> StatusTypes { get; set; }
         public virtual DbSet<Users> Users { get; set; }
     }
 }

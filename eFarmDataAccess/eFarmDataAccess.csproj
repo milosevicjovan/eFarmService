@@ -4,12 +4,12 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{E40A2FD6-4FF9-4CC2-8EEA-A32DB2F1103B}</ProjectGuid>
+    <ProjectGuid>{A2D4C304-ED3C-4600-9A9D-5E988DFDB0F9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eFarmDataAccess</RootNamespace>
     <AssemblyName>eFarmDataAccess</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -51,58 +51,106 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ActivityCalendar.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="DeliveryTypes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Device.cs">
-      <DependentUpon>DeviceDataModel.tt</DependentUpon>
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DeviceData.cs">
-      <DependentUpon>DeviceDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeviceDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="DeviceDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DeviceDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="eFarmModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>eFarmModel.edmx</DependentUpon>
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="DeviceSettings.cs">
-      <DependentUpon>DeviceDataModel.tt</DependentUpon>
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eFarmDataModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>eFarmDataModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eFarmDataModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eFarmDataModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>eFarmDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Expenses.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ExpenseTypes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Incomes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="IncomeTypes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderItems.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Orders.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="OrderStatus.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PaymentMethods.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Producers.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductCategories.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Products.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ProductTypes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roles.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="StatusTypes.cs">
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Users.cs">
-      <DependentUpon>DeviceDataModel.tt</DependentUpon>
+      <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EntityDeploy Include="eFarmModel.edmx">
+    <EntityDeploy Include="eFarmDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>eFarmModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>eFarmDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="eFarmModel.edmx.diagram">
-      <DependentUpon>eFarmModel.edmx</DependentUpon>
+    <None Include="eFarmDataModel.edmx.diagram">
+      <DependentUpon>eFarmDataModel.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="DeviceDataModel.Context.tt">
+    <Content Include="eFarmDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>eFarmModel.edmx</DependentUpon>
-      <LastGenOutput>DeviceDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>eFarmDataModel.edmx</DependentUpon>
+      <LastGenOutput>eFarmDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="DeviceDataModel.tt">
+    <Content Include="eFarmDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>eFarmModel.edmx</DependentUpon>
-      <LastGenOutput>DeviceDataModel.cs</LastGenOutput>
+      <DependentUpon>eFarmDataModel.edmx</DependentUpon>
+      <LastGenOutput>eFarmDataModel.cs</LastGenOutput>
     </Content>
   </ItemGroup>
   <ItemGroup>

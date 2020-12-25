@@ -12,25 +12,19 @@ namespace eFarmDataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class Device
+    public partial class IncomeTypes
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Device()
+        public IncomeTypes()
         {
-            this.Users = new HashSet<Users>();
-            this.DeviceData = new HashSet<DeviceData>();
+            this.Incomes = new HashSet<Incomes>();
         }
     
         public int Id { get; set; }
-        public string DeviceType { get; set; }
-        public string DeviceLocation { get; set; }
-        public int ProducerId { get; set; }
+        public string Type { get; set; }
+        public string Description { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
-        public virtual Producers Producers { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeviceData> DeviceData { get; set; }
-        public virtual DeviceSettings DeviceSettings { get; set; }
+        public virtual ICollection<Incomes> Incomes { get; set; }
     }
 }

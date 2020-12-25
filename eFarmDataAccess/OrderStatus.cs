@@ -12,19 +12,15 @@ namespace eFarmDataAccess
     using System;
     using System.Collections.Generic;
     
-    public partial class DeviceData
+    public partial class OrderStatus
     {
-        public int Id { get; set; }
+        public int OrderId { get; set; }
+        public int StatusId { get; set; }
         public System.DateTime Time { get; set; }
-        public Nullable<double> SoilMoisture { get; set; }
-        public Nullable<int> Rain { get; set; }
-        public Nullable<bool> Water { get; set; }
-        public Nullable<double> Temperature { get; set; }
-        public Nullable<double> Humidity { get; set; }
-        public Nullable<double> Pressure { get; set; }
-        public Nullable<double> Altitude { get; set; }
-        public Nullable<int> DeviceId { get; set; }
+        public string ManagerId { get; set; }
     
-        public virtual Device Device { get; set; }
+        public virtual Orders Orders { get; set; }
+        public virtual StatusTypes StatusTypes { get; set; }
+        public virtual Users Users { get; set; }
     }
 }
