@@ -226,6 +226,7 @@
     <Compile Include="Controllers\DeviceDataController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
@@ -240,6 +241,7 @@
     <Compile Include="Models\DeviceData.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -305,6 +307,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Products\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -316,7 +319,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eFarmDataAccess\eFarmDataAccess.csproj">
-      <Project>{e40a2fd6-4ff9-4cc2-8eea-a32db2f1103b}</Project>
+      <Project>{a2d4c304-ed3c-4600-9a9d-5e988dfdb0f9}</Project>
       <Name>eFarmDataAccess</Name>
     </ProjectReference>
   </ItemGroup>
