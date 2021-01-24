@@ -44,7 +44,8 @@ namespace eFarmService.Controllers
                     if deviceId actually exists in table -> it must be there
                     Also there will be no null value
                 */
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == username).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(d => d.UserName == username).ProducerId;
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
                 Device device = entities.Device.SingleOrDefault(d => d.Id == deviceId);
 
                 deviceData.Device = device;
@@ -88,7 +89,8 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == username).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(d => d.UserName == username).ProducerId;
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 var settingsForDevice = await entities.DeviceSettings.Include(d => d.Device).Select(d =>
                     new SettingsDto()
@@ -125,7 +127,8 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == username).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(d => d.UserName == username).ProducerId;
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 var deviceSettings = await entities.DeviceSettings.SingleOrDefaultAsync(d => d.DeviceId == deviceId);
 

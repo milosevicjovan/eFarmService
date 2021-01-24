@@ -23,7 +23,14 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 if (deviceId < 1)
                 {
@@ -76,7 +83,14 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 if (deviceId < 1)
                 {
@@ -156,7 +170,14 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 if (deviceId < 1)
                 {
@@ -221,9 +242,9 @@ namespace eFarmService.Controllers
                 {
                     DeviceId = deviceId,
                     LastActive = lastActive
-            };
+                };
 
-                if (diff.TotalMinutes <= 2)
+                if (diff.TotalMinutes <= 1)
                 {
                     deviceActivity.IsActive = true;                   
                     return Ok(deviceActivity);

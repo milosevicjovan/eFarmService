@@ -328,7 +328,7 @@ namespace eFarmService.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Surname = model.Surname, DeviceId = model.DeviceId };
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Surname = model.Surname, ProducerId = model.ProducerId };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 

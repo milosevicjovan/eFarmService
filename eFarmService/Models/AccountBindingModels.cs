@@ -56,7 +56,7 @@ namespace eFarmService.Models
         public string Surname { get; set; }
 
         [Required]
-        public int DeviceId { get; set; }
+        public int ProducerId { get; set; }
     }
 
     public class RegisterExternalBindingModel

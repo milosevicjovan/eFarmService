@@ -1,4 +1,5 @@
-﻿using System;
+﻿using eFarmDataAccess;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -13,5 +14,6 @@ namespace eFarmService.Models
         public string Surname { get; set; }
         public int DeviceId { get; set; }
         public string DeviceType { get; set; }
+        public Producer Producer { get; set; }
     }
 }

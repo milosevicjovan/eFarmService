@@ -12,7 +12,7 @@ namespace eFarmService.Models
     {
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int DeviceId { get; set; }
+        public int ProducerId { get; set; }
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -20,7 +20,7 @@ namespace eFarmService.Models
             // Add custom user claims here
             userIdentity.AddClaim(new Claim("Name", Name.ToString()));
             userIdentity.AddClaim(new Claim("Surname", Surname.ToString()));
-            userIdentity.AddClaim(new Claim("DeviceId", DeviceId.ToString()));
+            userIdentity.AddClaim(new Claim("ProducerId", ProducerId.ToString()));
 
             return userIdentity;
         }
