@@ -28,7 +28,7 @@ namespace eFarmDataAccess
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderItems> OrderItems { get; set; }
-        public virtual Producers Producers { get; set; }
+        public virtual Producer Producer { get; set; }
         public virtual ProductTypes ProductTypes { get; set; }
     }
 }

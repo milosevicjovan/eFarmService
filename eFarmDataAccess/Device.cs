@@ -17,7 +17,6 @@ namespace eFarmDataAccess
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Device()
         {
-            this.Users = new HashSet<Users>();
             this.DeviceData = new HashSet<DeviceData>();
         }
     
@@ -25,10 +24,10 @@ namespace eFarmDataAccess
         public string DeviceType { get; set; }
         public string DeviceLocation { get; set; }
         public int ProducerId { get; set; }
+        public string DeviceAuthUsername { get; set; }
+        public string DeviceAuthPassword { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Users> Users { get; set; }
-        public virtual Producers Producers { get; set; }
+        public virtual Producer Producer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeviceData> DeviceData { get; set; }
         public virtual DeviceSettings DeviceSettings { get; set; }

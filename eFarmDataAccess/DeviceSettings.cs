@@ -20,6 +20,7 @@ namespace eFarmDataAccess
         public Nullable<int> TemperatureMin { get; set; }
         public Nullable<int> TemperatureMax { get; set; }
         public Nullable<bool> WaterPump { get; set; }
+        public Nullable<bool> AutoControl { get; set; }
     
         public virtual Device Device { get; set; }
     }

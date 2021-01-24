@@ -4,31 +4,30 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="d37959e454c544b7a4a052b5079930e5" Name="Diagram1">
-        <EntityTypeShape EntityType="eFarmDataModel.ActivityCalendar" Width="1.5" PointX="3" PointY="14.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.DeliveryTypes" Width="1.5" PointX="6.75" PointY="9.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Device" Width="1.5" PointX="3" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.DeviceData" Width="1.5" PointX="5.25" PointY="16.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.DeviceSettings" Width="1.5" PointX="5.25" PointY="20.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Expenses" Width="1.5" PointX="6" PointY="12.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.ExpenseTypes" Width="1.5" PointX="3.75" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Incomes" Width="1.5" PointX="3" PointY="10.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.IncomeTypes" Width="1.5" PointX="0.75" PointY="10.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.OrderItems" Width="1.5" PointX="11.25" PointY="12" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Orders" Width="1.5" PointX="9" PointY="12.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.OrderStatus" Width="1.5" PointX="11.25" PointY="16.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.PaymentMethods" Width="1.5" PointX="6.75" PointY="24.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Producers" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.ProductCategories" Width="1.5" PointX="4.5" PointY="7" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Products" Width="1.5" PointX="9" PointY="9.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.ProductTypes" Width="1.5" PointX="6.75" PointY="6.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Roles" Width="1.5" PointX="6" PointY="27.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.StatusTypes" Width="1.5" PointX="0.75" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="eFarmDataModel.Users" Width="1.5" PointX="8.25" PointY="17.625" IsExpanded="true" />
+      <Diagram DiagramId="df3bc5a1db944cada643af6891900243" Name="Diagram1" ZoomLevel="55">
+        <EntityTypeShape EntityType="eFarmDataModel.ActivityCalendar" Width="1.5" PointX="7.5" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.DeliveryTypes" Width="1.5" PointX="12.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Device" Width="1.5" PointX="7.5" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.DeviceData" Width="1.5" PointX="9.75" PointY="18.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.DeviceSettings" Width="1.5" PointX="9.75" PointY="22.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Expenses" Width="1.5" PointX="10.5" PointY="14.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.ExpenseTypes" Width="1.5" PointX="10.5" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Incomes" Width="1.5" PointX="7.5" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.IncomeTypes" Width="1.5" PointX="5.25" PointY="10.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.OrderItems" Width="1.5" PointX="14.75" PointY="20.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Orders" Width="1.5" PointX="12.5" PointY="17.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.OrderStatus" Width="1.5" PointX="5.25" PointY="13.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.PaymentMethods" Width="1.5" PointX="10.25" PointY="26.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Producer" Width="1.5" PointX="5.25" PointY="16.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.ProductCategories" Width="1.5" PointX="16.5" PointY="17.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Products" Width="1.5" PointX="12.5" PointY="22.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.ProductTypes" Width="1.5" PointX="16.625" PointY="19.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Roles" Width="1.5" PointX="0.75" PointY="14.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.StatusTypes" Width="1.5" PointX="3" PointY="10.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="eFarmDataModel.Users" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
         <AssociationConnector Association="eFarmDataModel.FK_ActivityCalendar_Producers" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_ActivityCalendar_StatusTypes" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_Orders_Orders" ManuallyRouted="false" />
-        <AssociationConnector Association="eFarmDataModel.FK_AspNetUsers_Device" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_Device_Producers" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_DeviceData_Device" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_DeviceSettings_Device" ManuallyRouted="false" />
@@ -43,6 +42,8 @@
         <AssociationConnector Association="eFarmDataModel.FK_OrderStatus_Orders" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_OrderStatus_StatusTypes" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_OrderStatus_Users" ManuallyRouted="false" />
+        <AssociationConnector Association="eFarmDataModel.FK_Producers_Producers" ManuallyRouted="false" />
+        <AssociationConnector Association="eFarmDataModel.FK_Producers_Users" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_Products_Producers" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_ProductTypes_ProductCategories" ManuallyRouted="false" />
         <AssociationConnector Association="eFarmDataModel.FK_Products_ProductTypes" ManuallyRouted="false" />

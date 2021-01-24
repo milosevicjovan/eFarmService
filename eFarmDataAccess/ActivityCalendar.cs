@@ -20,7 +20,7 @@ namespace eFarmDataAccess
         public Nullable<int> StatusId { get; set; }
         public Nullable<int> ProducerId { get; set; }
     
-        public virtual Producers Producers { get; set; }
+        public virtual Producer Producer { get; set; }
         public virtual StatusTypes StatusTypes { get; set; }
     }
 }

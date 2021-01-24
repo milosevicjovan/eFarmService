@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2D4C304-ED3C-4600-9A9D-5E988DFDB0F9}</ProjectGuid>
+    <ProjectGuid>{603E008A-81D3-4FDA-8F7E-092F4D0F01D0}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>eFarmDataAccess</RootNamespace>
@@ -105,7 +105,7 @@
     <Compile Include="PaymentMethods.cs">
       <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Producers.cs">
+    <Compile Include="Producer.cs">
       <DependentUpon>eFarmDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ProductCategories.cs">

@@ -38,7 +38,7 @@ namespace eFarmDataAccess
         public virtual DbSet<Orders> Orders { get; set; }
         public virtual DbSet<OrderStatus> OrderStatus { get; set; }
         public virtual DbSet<PaymentMethods> PaymentMethods { get; set; }
-        public virtual DbSet<Producers> Producers { get; set; }
+        public virtual DbSet<Producer> Producer { get; set; }
         public virtual DbSet<ProductCategories> ProductCategories { get; set; }
         public virtual DbSet<Products> Products { get; set; }
         public virtual DbSet<ProductTypes> ProductTypes { get; set; }
