@@ -27,7 +27,7 @@ namespace eFarmService
                 string username = usernamePasswordArray[0];
                 string password = usernamePasswordArray[1];
 
-                if (eFarmSecurity.Login(username, password))
+                if (eFarmSecurity.DeviceLogin(username, password))
                 {
                     Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), null);
                 } else

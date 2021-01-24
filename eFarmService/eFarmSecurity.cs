@@ -20,12 +20,18 @@ namespace eFarmService
     public class eFarmSecurity
     {
 
-        public static bool Login(string username, string password)                                                 
+        public static bool DeviceLogin(string username, string password)                                                 
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                return entities.Device.Any(device => device.DeviceAuthUsername.Equals(username, StringComparison.OrdinalIgnoreCase)
+                                            && device.DeviceAuthPassword == password);
+
+                /*
+                -----OLD VERSION---
                 return entities.Users.Any(user => user.UserName.Equals(username, StringComparison.OrdinalIgnoreCase)
                                             && user.PasswordHash == password);
+                */
             }
         }
     }
