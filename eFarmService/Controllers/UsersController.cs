@@ -22,23 +22,24 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (deviceId < 1)
+                if (producerId < 1)
                 {
                     return NotFound();
                 }
 
-                var users = await entities.Users.Include(u => u.Device).Select(u =>
+                var users = await entities.Users.Include(u => u.Producer).Select(u =>
                             new UserDto()
                             {
                                 Id = u.Id,
                                 Username = u.UserName,
                                 Name = u.Name,
                                 Surname = u.Surname,
-                                DeviceId = u.DeviceId,
-                                DeviceType = u.Device.DeviceType
-                            }).Where(u => u.DeviceId == deviceId).ToListAsync();
+                                DeviceId = DeviceByProducerId(producerId).Result.Id,
+                                DeviceType = DeviceByProducerId(producerId).Result.DeviceType,
+                                Producer = u.Producer.FirstOrDefault(p => p.Id == producerId)
+                            }).Where(u => u.Producer.Id == producerId).ToListAsync();
 
                 if (users == null)
                 {
@@ -55,16 +56,23 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                var user = await entities.Users.Include(u => u.Device).Select(u =>
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                var user = await entities.Users.Include(u => u.Producer).Select(u =>
                             new UserDto()
                             {
                                 Id = u.Id,
                                 Username = u.UserName,
                                 Name = u.Name,
                                 Surname = u.Surname,
-                                DeviceId = u.DeviceId,
-                                DeviceType = u.Device.DeviceType
+                                DeviceId = entities.Device.FirstOrDefault(d => d.ProducerId == 1).Id,
+                                DeviceType = entities.Device.FirstOrDefault(d => d.ProducerId == 1).DeviceType,
+                                Producer = u.Producer.FirstOrDefault(p => p.Id == producerId)
                             }).SingleOrDefaultAsync(u => u.Username == User.Identity.Name);
 
                 if (user == null)
@@ -73,6 +81,21 @@ namespace eFarmService.Controllers
                 }
 
                 return Ok(user);
+            }
+        }
+
+        private async Task<Device> DeviceByProducerId(int producerId)
+        {
+            using (eFarmDataEntities entities = new eFarmDataEntities())
+            {
+                Device device = await entities.Device.FirstOrDefaultAsync(d => d.ProducerId == producerId);
+
+                if (device == null)
+                {
+                    return null;
+                }
+
+                return device;
             }
         }
     }
