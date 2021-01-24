@@ -21,7 +21,14 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 if (deviceId < 1)
                 {
@@ -56,7 +63,14 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = entities.Users.SingleOrDefault(d => d.UserName == User.Identity.Name).DeviceId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1)
+                {
+                    return NotFound();
+                }
+
+                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
 
                 if (deviceId < 1 || newSettings == null)
                 {
@@ -75,6 +89,7 @@ namespace eFarmService.Controllers
                 deviceSettings.TemperatureMax = newSettings.TemperatureMax;
                 deviceSettings.TemperatureMin = newSettings.TemperatureMin;
                 deviceSettings.WaterPump = newSettings.WaterPump;
+                deviceSettings.AutoControl = newSettings.AutoControl;
 
                 await entities.SaveChangesAsync();
 
