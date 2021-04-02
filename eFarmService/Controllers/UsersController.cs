@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace eFarmService.Controllers
 {
+    [Authorize]
     public class UsersController : ApiController
     {
         [HttpGet]
@@ -29,17 +30,16 @@ namespace eFarmService.Controllers
                     return NotFound();
                 }
 
-                var users = await entities.Users.Include(u => u.Producer).Select(u =>
+                var users = await entities.Users.Where(u => u.ProducerId == producerId).Select(u =>
                             new UserDto()
                             {
                                 Id = u.Id,
                                 Username = u.UserName,
                                 Name = u.Name,
                                 Surname = u.Surname,
-                                DeviceId = DeviceByProducerId(producerId).Result.Id,
-                                DeviceType = DeviceByProducerId(producerId).Result.DeviceType,
-                                Producer = u.Producer.FirstOrDefault(p => p.Id == producerId)
-                            }).Where(u => u.Producer.Id == producerId).ToListAsync();
+                                ProducerId = u.ProducerId,
+                                Producer = entities.Producer.FirstOrDefault(p => p.Id == producerId).Name
+                            }).ToListAsync();
 
                 if (users == null)
                 {
@@ -70,9 +70,8 @@ namespace eFarmService.Controllers
                                 Username = u.UserName,
                                 Name = u.Name,
                                 Surname = u.Surname,
-                                DeviceId = entities.Device.FirstOrDefault(d => d.ProducerId == 1).Id,
-                                DeviceType = entities.Device.FirstOrDefault(d => d.ProducerId == 1).DeviceType,
-                                Producer = u.Producer.FirstOrDefault(p => p.Id == producerId)
+                                ProducerId = u.ProducerId,
+                                Producer = entities.Producer.FirstOrDefault(p => p.Id == producerId).Name
                             }).SingleOrDefaultAsync(u => u.Username == User.Identity.Name);
 
                 if (user == null)
@@ -84,6 +83,7 @@ namespace eFarmService.Controllers
             }
         }
 
+        //unused for now --> should be deleted
         private async Task<Device> DeviceByProducerId(int producerId)
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
