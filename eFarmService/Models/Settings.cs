@@ -13,6 +13,8 @@ namespace eFarmService.Models
             public Nullable<int> TemperatureMin { get; set; }
             public Nullable<int> TemperatureMax { get; set; }
             public Nullable<bool> WaterPump { get; set; }
+            public Nullable<bool> AutoControl { get; set; }
+
             public string DeviceType { get; set; }
     }
 }

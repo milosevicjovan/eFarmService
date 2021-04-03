@@ -16,23 +16,23 @@ namespace eFarmService.Controllers
     public class SettingsController : ApiController
     {
         [HttpGet]
-        [Route("api/device/current/settings")]
-        public async Task<IHttpActionResult> GetSettings()
+        [Route("api/device/{deviceId}/settings")]
+        public async Task<IHttpActionResult> GetSettings(int deviceId)
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (producerId < 1)
+                if (producerId < 1 || deviceId < 1)
                 {
                     return NotFound();
                 }
 
-                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
+                bool deviceExists = entities.Device.Any(d => d.Id == deviceId && d.ProducerId == producerId);
 
-                if (deviceId < 1)
+                if (!deviceExists)
                 {
-                    return NotFound();
+                    return BadRequest("Invalid request!");
                 }
 
                 var settingsForDevice = await entities.DeviceSettings.Include(d => d.Device).Select(d =>
@@ -44,7 +44,8 @@ namespace eFarmService.Controllers
                          TemperatureMin = d.TemperatureMin,
                          TemperatureMax = d.TemperatureMax,
                          WaterPump = d.WaterPump,
-                         DeviceType = d.Device.DeviceType
+                         DeviceType = d.Device.DeviceType,
+                         AutoControl = d.AutoControl
                      }).SingleOrDefaultAsync(d => d.DeviceId == deviceId);
 
                 if (settingsForDevice == null)
@@ -57,24 +58,24 @@ namespace eFarmService.Controllers
         }
 
         [HttpPut]
-        [Route("api/device/current/settings")]
-        public async Task<IHttpActionResult> UpdateSettings([FromBody]DeviceSettings newSettings)
+        [Route("api/device/{deviceId}/settings")]
+        public async Task<IHttpActionResult> UpdateSettings(int deviceId, [FromBody]DeviceSettings newSettings)
         {
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (producerId < 1)
+                if (producerId < 1 || deviceId < 1 || newSettings == null)
                 {
                     return NotFound();
                 }
 
-                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
+                bool deviceExists = entities.Device.Any(d => d.Id == deviceId && d.ProducerId == producerId);
 
-                if (deviceId < 1 || newSettings == null)
+                if (!deviceExists)
                 {
-                    return NotFound();
+                    return BadRequest("Invalid request!");
                 }
 
                 var deviceSettings = await entities.DeviceSettings.SingleOrDefaultAsync(d => d.DeviceId == deviceId);
@@ -84,12 +85,29 @@ namespace eFarmService.Controllers
                     return BadRequest();
                 }
 
-                deviceSettings.MoistureMin = newSettings.MoistureMin;
-                deviceSettings.MoistureMax = newSettings.MoistureMax;
-                deviceSettings.TemperatureMax = newSettings.TemperatureMax;
-                deviceSettings.TemperatureMin = newSettings.TemperatureMin;
-                deviceSettings.WaterPump = newSettings.WaterPump;
-                deviceSettings.AutoControl = newSettings.AutoControl;
+                if (newSettings.MoistureMin != null)
+                {
+                    deviceSettings.MoistureMin = newSettings.MoistureMin;
+                }
+                if (newSettings.MoistureMax != null) {
+                    deviceSettings.MoistureMax = newSettings.MoistureMax;
+                }
+                if (newSettings.TemperatureMax != null)
+                {
+                    deviceSettings.TemperatureMax = newSettings.TemperatureMax;
+                }
+                if (newSettings.TemperatureMin != null)
+                {
+                    deviceSettings.TemperatureMin = newSettings.TemperatureMin;
+                }
+                if (newSettings.WaterPump != null)
+                {
+                    deviceSettings.WaterPump = newSettings.WaterPump;
+                }
+                if (newSettings.AutoControl != null)
+                {
+                    deviceSettings.AutoControl = newSettings.AutoControl;
+                } 
 
                 await entities.SaveChangesAsync();
 
