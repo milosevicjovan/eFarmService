@@ -23,7 +23,7 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).ProducerId;
 
                 if (producerId < 1)
                 {
@@ -56,7 +56,7 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).ProducerId;
 
                 if (producerId < 1)
                 {
@@ -80,22 +80,6 @@ namespace eFarmService.Controllers
                 }
 
                 return Ok(user);
-            }
-        }
-
-        //unused for now --> should be deleted
-        private async Task<Device> DeviceByProducerId(int producerId)
-        {
-            using (eFarmDataEntities entities = new eFarmDataEntities())
-            {
-                Device device = await entities.Device.FirstOrDefaultAsync(d => d.ProducerId == producerId);
-
-                if (device == null)
-                {
-                    return null;
-                }
-
-                return device;
             }
         }
     }
