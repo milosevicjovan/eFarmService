@@ -17,24 +17,31 @@ namespace eFarmService.Controllers
     {
         [HttpGet]
         [ResponseType(typeof(DeviceDataDto))]
-        [Route("api/device/sensors/latest")]
+        [Route("api/device/{deviceId}/sensors/latest")]
         //fetching latest data sent from device that current user is connected to
-        public async Task<IHttpActionResult> GetData()
+        public async Task<IHttpActionResult> GetData(int deviceId)
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                bool deviceExists = await entities.Device.AnyAsync(d => d.Id == deviceId);
+
+                if (!deviceExists)
+                {
+                    return BadRequest("Invalid device ID!");
+                }
+
                 int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (producerId < 1)
+                if (producerId < 1 || deviceId < 1)
                 {
                     return NotFound();
                 }
 
-                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
+                Device device = await entities.Device.SingleOrDefaultAsync(d => d.Id == deviceId);
 
-                if (deviceId < 1)
+                if (producerId != device.ProducerId)
                 {
-                    return NotFound();
+                    return BadRequest("The authorization for this request has been denied!");
                 }
 
                 int maxId = entities.DeviceData.Where(d => d.DeviceId == deviceId).Max(d => (int?)d.Id) ?? 0;
@@ -71,9 +78,9 @@ namespace eFarmService.Controllers
 
         [HttpGet]
         [ResponseType(typeof(DeviceDataDto))]
-        [Route("api/device/sensors/average/{date}")]
+        [Route("api/device/{deviceId}/sensors/average/{date}")]
         //average for selected date
-        public async Task<IHttpActionResult> GetAverageForOneDay(string date)
+        public async Task<IHttpActionResult> GetAverageForOneDay(int deviceId, string date)
         {
             DateTime shortDate = Convert.ToDateTime(date);
             double soilMoistureSum, temperatureSum, humiditySum, pressureSum, altitudeSum = 0;
@@ -83,18 +90,25 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                bool deviceExists = await entities.Device.AnyAsync(d => d.Id == deviceId);
+
+                if (!deviceExists)
+                {
+                    return BadRequest("Invalid device ID!");
+                }
+
                 int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (producerId < 1)
+                if (producerId < 1 || deviceId < 1)
                 {
                     return NotFound();
                 }
 
-                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
+                Device device = await entities.Device.SingleOrDefaultAsync(d => d.Id == deviceId);
 
-                if (deviceId < 1)
+                if (producerId != device.ProducerId)
                 {
-                    return NotFound();
+                    return BadRequest("The authorization for this request has been denied!");
                 }
 
                 count = await entities.DeviceData.Where(d => DbFunctions.TruncateTime(d.Time) == shortDate.Date
@@ -154,9 +168,9 @@ namespace eFarmService.Controllers
 
         [HttpGet]
         [ResponseType(typeof(DeviceDataDto))]
-        [Route("api/device/sensors/data")]
+        [Route("api/device/{deviceId}/sensors/data")]
         //data from between two selected dates
-        public async Task<IHttpActionResult> GetData(string from, string to)
+        public async Task<IHttpActionResult> GetData(int deviceId, string from, string to)
         {
 
             DateTime fromDate = Convert.ToDateTime(from);
@@ -165,23 +179,30 @@ namespace eFarmService.Controllers
 
             if (toDate < fromDate || fromDate==null || toDate==null)
             {
-                return NotFound();
+                return BadRequest("Invalid date entry!");
             }
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                bool deviceExists = await entities.Device.AnyAsync(d => d.Id == deviceId);
+
+                if (!deviceExists)
+                {
+                    return BadRequest("Invalid device ID!");
+                }
+
                 int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                if (producerId < 1)
+                if (producerId < 1 || deviceId < 1)
                 {
                     return NotFound();
                 }
 
-                int deviceId = entities.Device.SingleOrDefault(d => d.ProducerId == producerId).Id;
+                Device device = await entities.Device.SingleOrDefaultAsync(d => d.Id == deviceId);
 
-                if (deviceId < 1)
+                if (producerId != device.ProducerId)
                 {
-                    return NotFound();
+                    return BadRequest("The authorization for this request has been denied!");
                 }
 
                 var deviceData = await entities.DeviceData.Where(d => d.DeviceId == deviceId &&
@@ -213,16 +234,31 @@ namespace eFarmService.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("api/device/active/{id}")]
-        public async Task<IHttpActionResult> GetDeviceActivity(int id)
+        [Route("api/device/{deviceId}/active")]
+        public async Task<IHttpActionResult> GetDeviceActivity(int deviceId)
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int deviceId = id;
 
-                if (!entities.Device.Any(d => d.Id == deviceId))
+                bool deviceExists = await entities.Device.AnyAsync(d => d.Id == deviceId);
+
+                if (!deviceExists)
                 {
-                    NotFound();
+                    return BadRequest("Invalid device ID!");
+                }
+
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+
+                if (producerId < 1 || deviceId < 1)
+                {
+                    return NotFound();
+                }
+
+                Device device = await entities.Device.SingleOrDefaultAsync(d => d.Id == deviceId);
+
+                if (producerId != device.ProducerId)
+                {
+                    return BadRequest("The authorization for this request has been denied!");
                 }
 
                 int maxId = entities.DeviceData.Where(d => d.DeviceId == deviceId).Max(d => (int?)d.Id) ?? 0;
@@ -232,8 +268,9 @@ namespace eFarmService.Controllers
                     return NotFound();
                 }
 
-                var device = await entities.DeviceData.SingleOrDefaultAsync(d => d.Id == maxId);
-                DateTime lastActive = device.Time;
+                var deviceData = await entities.DeviceData.SingleOrDefaultAsync(d => d.Id == maxId);
+
+                DateTime lastActive = deviceData.Time;
                 DateTime now = DateTime.Now;
 
                 System.TimeSpan diff = now.Subtract(lastActive);
