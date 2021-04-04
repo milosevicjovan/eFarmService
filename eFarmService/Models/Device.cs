@@ -7,7 +7,9 @@ namespace eFarmService.Models
 {
     public class DeviceDto
     {
-        public int Id { get; set; }
-        public string Type { get; set; }
+        public int DeviceId { get; set; }
+        public string DeviceType { get; set; }
+        public string DeviceLocation { get; set; }
+        public bool IsActive { get; set; }
     }
 }

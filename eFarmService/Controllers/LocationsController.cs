@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using eFarmDataAccess;
-using eFarmService.Models;
-using System.Data.Entity;
 using System.Web.Http.Description;
+using eFarmService.Models;
 using System.Threading.Tasks;
+using System.Data.Entity;
+using System.Linq;
+using System;
 namespace eFarmService.Controllers
 {
+    [Authorize]
     public class LocationsController : ApiController
     {
         //helper method
-        private bool IsActive(int id)
+        private bool IsActive(int deviceId)
         {
-            int deviceId = id;
-
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
                 if (!entities.Device.Any(d => d.Id == deviceId))
@@ -38,49 +36,55 @@ namespace eFarmService.Controllers
 
                 System.TimeSpan diff = now.Subtract(lastActive);
 
-                if (diff.TotalMinutes > 2)
+                if (diff.TotalMinutes <= 1)
                 {
-                    return false;
+                    return true;
                 }
 
-                return true;
+                return false;
             }
         }
 
         [HttpGet]
-        [AllowAnonymous]
-        [ResponseType(typeof(LocationDto))]
-        [Route("api/devices/locations")]
+        [ResponseType(typeof(DeviceDto))]
+        [Route("api/devices/all")]
         public async Task<IHttpActionResult> Get()
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                var locations = await entities.Device
-                            .Select(d =>
-                            new LocationDto()
-                            {
-                                DeviceId = d.Id,
-                                DeviceType = d.DeviceType,
-                                DeviceLocation = d.DeviceLocation
-                            }).ToListAsync();
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
 
-                foreach(LocationDto location in locations)
+                if (producerId < 1)
                 {
-                    if (IsActive(location.DeviceId))
-                    {
-                        location.IsActive = true;
-                    } else
-                    {
-                        location.IsActive = false;
-                    }
+                    return BadRequest("Not authorized!");
                 }
 
-                if (locations == null)
+                var devices = await entities.Device.Where(d => d.ProducerId == 1).Select(d =>
+                              new DeviceDto()
+                              {
+                                  DeviceId = d.Id,
+                                  DeviceType = d.DeviceType,
+                                  DeviceLocation = d.DeviceLocation
+                              }).ToListAsync();
+
+                if (devices == null || devices.Count <= 0)
                 {
                     return NotFound();
                 }
 
-                return Ok(locations);
+                foreach (DeviceDto device in devices)
+                {
+                    if (IsActive(device.DeviceId))
+                    {
+                        device.IsActive = true;
+                    }
+                    else
+                    {
+                        device.IsActive = false;
+                    }
+                }
+
+                return Ok(devices);
             }
         }
     }
