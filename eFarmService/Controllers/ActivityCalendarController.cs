@@ -12,10 +12,11 @@ using System.Web.Http.Description;
 
 namespace eFarmService.Controllers
 {
+    [Authorize]
     public class ActivityCalendarController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(ActivityCalendarDto))]
+        [ResponseType(typeof(ActivityCalendarDTO))]
         [Route("api/calendar/activities/all")]
         public async Task<IHttpActionResult> GetAllActivities(string from, string to)
         {
@@ -24,8 +25,18 @@ namespace eFarmService.Controllers
                 return BadRequest("Invalid request.");
             }
 
-            DateTime fromDate = Convert.ToDateTime(from);
-            DateTime toDate = Convert.ToDateTime(to);
+            DateTime fromDate;
+            DateTime toDate;
+
+            try
+            {
+                fromDate = Convert.ToDateTime(from);
+                toDate = Convert.ToDateTime(to);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid date.");
+            }
 
             if (fromDate == null || toDate == null || toDate < fromDate)
             {
@@ -49,7 +60,7 @@ namespace eFarmService.Controllers
 
                 var activities = await entities.ActivityCalendar.Where(a => a.ProducerId == producerId &&
                                         DbFunctions.TruncateTime(a.Date) >= fromDate &&
-                                        DbFunctions.TruncateTime(a.Date) <= toDate).Select(a => new ActivityCalendarDto()
+                                        DbFunctions.TruncateTime(a.Date) <= toDate).Select(a => new ActivityCalendarDTO()
                                         {
                                             Id = a.Id,
                                             Date = (DateTime)a.Date,
@@ -65,7 +76,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(ActivityCalendarDto))]
+        [ResponseType(typeof(ActivityCalendarDTO))]
         [Route("api/calendar/activities/{activityId}")]
         public async Task<IHttpActionResult> GetActivityById(int activityId)
         {
@@ -106,7 +117,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Activity not found!");
                 }
 
-                ActivityCalendarDto activityDto = new ActivityCalendarDto()
+                ActivityCalendarDTO activityDto = new ActivityCalendarDTO()
                 {
                     Id = activity.Id,
                     Date = (DateTime)activity.Date,
@@ -162,7 +173,7 @@ namespace eFarmService.Controllers
                 entities.Entry(activity).Reference(o => o.Producer).Load();
                 entities.Entry(activity).Reference(o => o.StatusTypes).Load();
 
-                var activityDto = new ActivityCalendarDto()
+                var activityDto = new ActivityCalendarDTO()
                 {
                     Id = activity.Id,
                     Date = (DateTime)activity.Date,
@@ -199,7 +210,7 @@ namespace eFarmService.Controllers
 
                 if (newActivity == null)
                 {
-                    return BadRequest("Invalid JSON! Order object is null.");
+                    return BadRequest("Invalid JSON! Activity object is null.");
                 }
 
                 var activity = await entities.ActivityCalendar.SingleOrDefaultAsync(a => a.Id == activityId);
