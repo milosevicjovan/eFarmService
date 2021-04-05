@@ -30,6 +30,7 @@ namespace eFarmDataAccess
         public int DeliveryTypeId { get; set; }
         public int PaymentMethodTypeId { get; set; }
         public int ProducerId { get; set; }
+        public string UserId { get; set; }
     
         public virtual DeliveryTypes DeliveryTypes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
@@ -38,5 +39,6 @@ namespace eFarmDataAccess
         public virtual Producer Producer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderStatus> OrderStatus { get; set; }
+        public virtual Users Users { get; set; }
     }
 }

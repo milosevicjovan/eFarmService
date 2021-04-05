@@ -20,6 +20,7 @@ namespace eFarmDataAccess
             this.OrderStatus = new HashSet<OrderStatus>();
             this.Producer = new HashSet<Producer>();
             this.Roles = new HashSet<Roles>();
+            this.Orders = new HashSet<Orders>();
         }
     
         public string Id { get; set; }
@@ -45,5 +46,7 @@ namespace eFarmDataAccess
         public virtual ICollection<Producer> Producer { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Roles> Roles { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Orders> Orders { get; set; }
     }
 }

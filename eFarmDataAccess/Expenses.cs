@@ -21,7 +21,7 @@ namespace eFarmDataAccess
         public Nullable<decimal> Amount { get; set; }
         public Nullable<int> ProducerId { get; set; }
     
-        public virtual ExpenseTypes ExpenseTypes { get; set; }
         public virtual Producer Producer { get; set; }
+        public virtual ExpenseTypes ExpenseTypes { get; set; }
     }
 }

@@ -30,8 +30,8 @@
           <Property Name="DeviceType" Type="nvarchar" MaxLength="100" />
           <Property Name="DeviceLocation" Type="nvarchar" MaxLength="100" />
           <Property Name="ProducerId" Type="int" Nullable="false" />
-          <Property Name="DeviceAuthUsername" Type="nvarchar" MaxLength="50" />
-          <Property Name="DeviceAuthPassword" Type="nvarchar" MaxLength="50" />
+          <Property Name="DeviceAuthUsername" Type="nvarchar(max)" />
+          <Property Name="DeviceAuthPassword" Type="nvarchar(max)" />
         </EntityType>
         <EntityType Name="DeviceData">
           <Key>
@@ -121,6 +121,7 @@
           <Property Name="DeliveryTypeId" Type="int" Nullable="false" />
           <Property Name="PaymentMethodTypeId" Type="int" Nullable="false" />
           <Property Name="ProducerId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -148,6 +149,8 @@
           <Property Name="Location" Type="nvarchar(max)" />
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="OwnerId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Email" Type="nvarchar" MaxLength="50" />
+          <Property Name="PhoneNumber" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ProductCategories">
           <Key>
@@ -306,14 +309,14 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_Expenses_ExpenseTypes">
-          <End Role="ExpenseTypes" Type="Self.ExpenseTypes" Multiplicity="1" />
-          <End Role="Expenses" Type="Self.Expenses" Multiplicity="0..1" />
+          <End Role="ExpenseTypes" Type="Self.ExpenseTypes" Multiplicity="0..1" />
+          <End Role="Expenses" Type="Self.Expenses" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseTypes">
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="Expenses">
-              <PropertyRef Name="Id" />
+              <PropertyRef Name="TypeId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -410,6 +413,18 @@
             </Principal>
             <Dependent Role="Orders">
               <PropertyRef Name="ProducerId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orders_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Orders" Type="Self.Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -595,6 +610,10 @@
             <End Role="Producer" EntitySet="Producer" />
             <End Role="Orders" EntitySet="Orders" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="Self.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
           <AssociationSet Name="FK_OrderStatus_Orders" Association="Self.FK_OrderStatus_Orders">
             <End Role="Orders" EntitySet="Orders" />
             <End Role="OrderStatus" EntitySet="OrderStatus" />
@@ -663,8 +682,8 @@
           <NavigationProperty Name="Producer" Relationship="Self.FK_Device_Producers" FromRole="Device" ToRole="Producer" />
           <NavigationProperty Name="DeviceData" Relationship="Self.FK_DeviceData_Device" FromRole="Device" ToRole="DeviceData" />
           <NavigationProperty Name="DeviceSettings" Relationship="Self.FK_DeviceSettings_Device" FromRole="Device" ToRole="DeviceSettings" />
-          <Property Name="DeviceAuthUsername" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="DeviceAuthPassword" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceAuthUsername" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceAuthPassword" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="DeviceData">
           <Key>
@@ -705,8 +724,8 @@
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="ProducerId" Type="Int32" />
-          <NavigationProperty Name="ExpenseTypes" Relationship="Self.FK_Expenses_ExpenseTypes" FromRole="Expenses" ToRole="ExpenseTypes" />
           <NavigationProperty Name="Producer" Relationship="Self.FK_Expenses_Producers" FromRole="Expenses" ToRole="Producer" />
+          <NavigationProperty Name="ExpenseTypes" Relationship="eFarmDataModel.FK_Expenses_ExpenseTypes1" FromRole="Expenses" ToRole="ExpenseTypes" />
         </EntityType>
         <EntityType Name="ExpenseTypes">
           <Key>
@@ -715,7 +734,7 @@
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Expenses" Relationship="Self.FK_Expenses_ExpenseTypes" FromRole="ExpenseTypes" ToRole="Expenses" />
+          <NavigationProperty Name="Expenses" Relationship="eFarmDataModel.FK_Expenses_ExpenseTypes1" FromRole="ExpenseTypes" ToRole="Expenses" />
         </EntityType>
         <EntityType Name="Incomes">
           <Key>
@@ -769,6 +788,8 @@
           <NavigationProperty Name="PaymentMethods" Relationship="Self.FK_Orders_PaymentMethods" FromRole="Orders" ToRole="PaymentMethods" />
           <NavigationProperty Name="Producer" Relationship="Self.FK_Orders_Producers" FromRole="Orders" ToRole="Producer" />
           <NavigationProperty Name="OrderStatus" Relationship="Self.FK_OrderStatus_Orders" FromRole="Orders" ToRole="OrderStatus" />
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Users" Relationship="eFarmDataModel.FK_Orders_Users" FromRole="Orders" ToRole="Users" />
         </EntityType>
         <EntityType Name="OrderStatus">
           <Key>
@@ -809,6 +830,8 @@
           <NavigationProperty Name="Producer2" Relationship="Self.FK_Producers_Producers" FromRole="Producer1" ToRole="Producer" />
           <NavigationProperty Name="Users" Relationship="Self.FK_Producers_Users" FromRole="Producer" ToRole="Users" />
           <NavigationProperty Name="Products" Relationship="Self.FK_Products_Producers" FromRole="Producer" ToRole="Products" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ProductCategories">
           <Key>
@@ -881,6 +904,7 @@
           <NavigationProperty Name="OrderStatus" Relationship="Self.FK_OrderStatus_Users" FromRole="Users" ToRole="OrderStatus" />
           <NavigationProperty Name="Producer" Relationship="Self.FK_Producers_Users" FromRole="Users" ToRole="Producer" />
           <NavigationProperty Name="Roles" Relationship="Self.UserRoles" FromRole="Users" ToRole="Roles" />
+          <NavigationProperty Name="Orders" Relationship="eFarmDataModel.FK_Orders_Users" FromRole="Users" ToRole="Orders" />
         </EntityType>
         <Association Name="FK_ActivityCalendar_Producers">
           <End Role="Producer" Type="Self.Producer" Multiplicity="0..1" />
@@ -951,18 +975,6 @@
             </Principal>
             <Dependent Role="DeviceSettings">
               <PropertyRef Name="DeviceId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Expenses_ExpenseTypes">
-          <End Role="ExpenseTypes" Type="Self.ExpenseTypes" Multiplicity="1" />
-          <End Role="Expenses" Type="Self.Expenses" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="ExpenseTypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Expenses">
-              <PropertyRef Name="Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1195,10 +1207,6 @@
             <End Role="Device" EntitySet="Device" />
             <End Role="DeviceSettings" EntitySet="DeviceSettings" />
           </AssociationSet>
-          <AssociationSet Name="FK_Expenses_ExpenseTypes" Association="Self.FK_Expenses_ExpenseTypes">
-            <End Role="ExpenseTypes" EntitySet="ExpenseTypes" />
-            <End Role="Expenses" EntitySet="Expenses" />
-          </AssociationSet>
           <AssociationSet Name="FK_Expenses_Producers" Association="Self.FK_Expenses_Producers">
             <End Role="Producer" EntitySet="Producer" />
             <End Role="Expenses" EntitySet="Expenses" />
@@ -1263,7 +1271,39 @@
             <End Role="Roles" EntitySet="Roles" />
             <End Role="Users" EntitySet="Users" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orders_Users" Association="eFarmDataModel.FK_Orders_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Orders" EntitySet="Orders" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Expenses_ExpenseTypes1" Association="eFarmDataModel.FK_Expenses_ExpenseTypes1">
+            <End Role="ExpenseTypes" EntitySet="ExpenseTypes" />
+            <End Role="Expenses" EntitySet="Expenses" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Orders_Users">
+          <End Type="eFarmDataModel.Users" Role="Users" Multiplicity="1" />
+          <End Type="eFarmDataModel.Orders" Role="Orders" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orders">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Expenses_ExpenseTypes1">
+          <End Type="eFarmDataModel.ExpenseTypes" Role="ExpenseTypes" Multiplicity="0..1" />
+          <End Type="eFarmDataModel.Expenses" Role="Expenses" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ExpenseTypes">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Expenses">
+              <PropertyRef Name="TypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1385,6 +1425,7 @@
           <EntitySetMapping Name="Orders">
             <EntityTypeMapping TypeName="eFarmDataModel.Orders">
               <MappingFragment StoreEntitySet="Orders">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Time" ColumnName="Time" />
                 <ScalarProperty Name="CustomerName" ColumnName="CustomerName" />
@@ -1418,6 +1459,8 @@
           <EntitySetMapping Name="Producer">
             <EntityTypeMapping TypeName="eFarmDataModel.Producer">
               <MappingFragment StoreEntitySet="Producer">
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Location" ColumnName="Location" />

@@ -14,10 +14,17 @@ namespace eFarmDataAccess
     
     public partial class ExpenseTypes
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public ExpenseTypes()
+        {
+            this.Expenses = new HashSet<Expenses>();
+        }
+    
         public int Id { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
     
-        public virtual Expenses Expenses { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Expenses> Expenses { get; set; }
     }
 }
