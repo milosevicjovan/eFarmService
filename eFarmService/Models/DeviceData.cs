@@ -5,7 +5,7 @@ using System.Web;
 
 namespace eFarmService.Models
 {
-    public class DeviceDataDto
+    public class DeviceDataDTO
     {
         public int Id { get; set; }
         public DateTime Time { get; set; }

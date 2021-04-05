@@ -5,7 +5,7 @@ using System.Web;
 
 namespace eFarmService.Models
 {
-    public class ActivityCalendarDto
+    public class ActivityCalendarDTO
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

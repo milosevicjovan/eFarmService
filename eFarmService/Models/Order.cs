@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace eFarmService.Models
 {
-    class OrderDto
+    class OrderDTO
     {
         public int Id { get; set; }
         public System.DateTime Time { get; set; }
@@ -21,7 +21,7 @@ namespace eFarmService.Models
         public string CustomerEmail { get; set; }
     }
 
-    class OrderItemDto
+    class OrderItemDTO
     {
         public int OrderId { get; set; }
         public int ProductId { get; set; }

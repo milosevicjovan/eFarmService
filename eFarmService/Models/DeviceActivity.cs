@@ -5,7 +5,7 @@ using System.Web;
 
 namespace eFarmService.Models
 {
-    public class DeviceActivityDto
+    public class DeviceActivityDTO
     {
         public int DeviceId { get; set; }
         public DateTime LastActive { get; set; }

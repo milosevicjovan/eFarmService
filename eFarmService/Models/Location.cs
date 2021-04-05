@@ -5,7 +5,7 @@ using System.Web;
 
 namespace eFarmService.Models
 {
-    public class DeviceDTO
+    public class LocationDTO
     {
         public int DeviceId { get; set; }
         public string DeviceType { get; set; }

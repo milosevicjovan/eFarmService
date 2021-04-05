@@ -5,7 +5,7 @@ using System.Web;
 
 namespace eFarmService.Models
 {
-    public class SettingsDto
+    public class SettingsDTO
     {
             public int DeviceId { get; set; }
             public Nullable<int> MoistureMin { get; set; }

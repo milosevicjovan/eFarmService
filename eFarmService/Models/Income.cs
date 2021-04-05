@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eFarmService.Models
 {
-    public class IncomeDto
+    public class IncomeDTO
     {
         public int Id { get; set; }
         public DateTime Date { get; set; }

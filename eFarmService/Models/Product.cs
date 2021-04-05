@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace eFarmService.Models
 {
-    class ProductDto
+    class ProductDTO
     {
         public int Id { get; set; }
         public string Category { get; set; }
