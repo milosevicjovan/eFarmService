@@ -17,7 +17,7 @@ namespace eFarmService.Controllers
     public class UsersController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(UserDTO))]
         [Route("api/users")]
         public async Task<IHttpActionResult> GetUsers()
         {
@@ -31,7 +31,7 @@ namespace eFarmService.Controllers
                 }
 
                 var users = await entities.Users.Where(u => u.ProducerId == producerId).Select(u =>
-                            new UserDto()
+                            new UserDTO()
                             {
                                 Id = u.Id,
                                 Username = u.UserName,
@@ -50,7 +50,7 @@ namespace eFarmService.Controllers
             }
         }
         [HttpGet]
-        [ResponseType(typeof(UserDto))]
+        [ResponseType(typeof(UserDTO))]
         [Route("api/users/current")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
@@ -64,7 +64,7 @@ namespace eFarmService.Controllers
                 }
 
                 var user = await entities.Users.Include(u => u.Producer).Select(u =>
-                            new UserDto()
+                            new UserDTO()
                             {
                                 Id = u.Id,
                                 Username = u.UserName,

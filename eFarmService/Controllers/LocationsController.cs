@@ -46,7 +46,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(DeviceDto))]
+        [ResponseType(typeof(DeviceDTO))]
         [Route("api/devices/all")]
         public async Task<IHttpActionResult> Get()
         {
@@ -60,7 +60,7 @@ namespace eFarmService.Controllers
                 }
 
                 var devices = await entities.Device.Where(d => d.ProducerId == 1).Select(d =>
-                              new DeviceDto()
+                              new DeviceDTO()
                               {
                                   DeviceId = d.Id,
                                   DeviceType = d.DeviceType,
@@ -72,7 +72,7 @@ namespace eFarmService.Controllers
                     return NotFound();
                 }
 
-                foreach (DeviceDto device in devices)
+                foreach (DeviceDTO device in devices)
                 {
                     if (IsActive(device.DeviceId))
                     {

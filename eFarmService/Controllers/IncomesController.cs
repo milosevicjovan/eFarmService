@@ -15,7 +15,7 @@ namespace eFarmService.Controllers
     public class IncomesController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(IncomeDto))]
+        [ResponseType(typeof(IncomeDTO))]
         [Route("api/incomes/all")]
         public async Task<IHttpActionResult> GetAllIncomes(string from, string to)
         {
@@ -59,7 +59,7 @@ namespace eFarmService.Controllers
 
                 var incomes = await entities.Incomes.Where(i => i.ProducerId == producerId &&
                                         DbFunctions.TruncateTime(i.Date) >= fromDate &&
-                                        DbFunctions.TruncateTime(i.Date) <= toDate).Select(e => new IncomeDto()
+                                        DbFunctions.TruncateTime(i.Date) <= toDate).Select(e => new IncomeDTO()
                                         {
                                             Id = e.Id,
                                             Date = (DateTime)e.Date,
@@ -76,7 +76,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(IncomeDto))]
+        [ResponseType(typeof(IncomeDTO))]
         [Route("api/incomes/{incomeId}")]
         public async Task<IHttpActionResult> GetIncomeById(int incomeId)
         {
@@ -115,7 +115,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Expense not found!");
                 }
 
-                IncomeDto incomeDto = new IncomeDto()
+                IncomeDTO incomeDto = new IncomeDTO()
                 {
                     Id = income.Id,
                     Date = (DateTime)income.Date,
@@ -172,7 +172,7 @@ namespace eFarmService.Controllers
                 entities.Entry(income).Reference(e => e.Producer).Load();
                 entities.Entry(income).Reference(e => e.IncomeTypes).Load();
 
-                var incomeDto = new IncomeDto()
+                var incomeDto = new IncomeDTO()
                 {
                     Id = income.Id,
                     Date = (DateTime)income.Date,

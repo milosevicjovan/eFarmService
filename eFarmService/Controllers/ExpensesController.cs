@@ -15,7 +15,7 @@ namespace eFarmService.Controllers
     public class ExpensesController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(ExpenseDto))]
+        [ResponseType(typeof(ExpenseDTO))]
         [Route("api/expenses/all")]
         public async Task<IHttpActionResult> GetAllExpenses(string from, string to)
         {
@@ -24,8 +24,18 @@ namespace eFarmService.Controllers
                 return BadRequest("Invalid request.");
             }
 
-            DateTime fromDate = Convert.ToDateTime(from);
-            DateTime toDate = Convert.ToDateTime(to);
+            DateTime fromDate;
+            DateTime toDate;
+
+            try
+            {
+                fromDate = Convert.ToDateTime(from);
+                toDate = Convert.ToDateTime(to);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Invalid date.");
+            }
 
             if (fromDate == null || toDate == null || toDate < fromDate)
             {
@@ -49,7 +59,7 @@ namespace eFarmService.Controllers
 
                 var expenses = await entities.Expenses.Where(e => e.ProducerId == producerId &&
                                         DbFunctions.TruncateTime(e.Date) >= fromDate &&
-                                        DbFunctions.TruncateTime(e.Date) <= toDate).Select(e => new ExpenseDto()
+                                        DbFunctions.TruncateTime(e.Date) <= toDate).Select(e => new ExpenseDTO()
                                         {
                                             Id = e.Id,
                                             Date = (DateTime)e.Date,
@@ -66,7 +76,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(ExpenseDto))]
+        [ResponseType(typeof(ExpenseDTO))]
         [Route("api/expenses/{expenseId}")]
         public async Task<IHttpActionResult> GetExpenseById(int expenseId)
         {
@@ -105,7 +115,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Expense not found!");
                 }
 
-                ExpenseDto expenseDto = new ExpenseDto()
+                ExpenseDTO expenseDto = new ExpenseDTO()
                 {
                     Id = expense.Id,
                     Date = (DateTime)expense.Date,
@@ -148,7 +158,7 @@ namespace eFarmService.Controllers
 
                 expense.ProducerId = producerId;
                 expense.Producer = entities.Producer.SingleOrDefault(p => p.Id == expense.ProducerId);
-                expense.ExpenseTypes = entities.ExpenseTypes.SingleOrDefault(s => s.Id == expense.TypeId);
+                expense.ExpenseTypes = entities.ExpenseTypes.SingleOrDefault(e => e.Id == expense.TypeId);
 
                 if (expense.Producer == null || expense.TypeId == null)
                 {
@@ -162,7 +172,7 @@ namespace eFarmService.Controllers
                 entities.Entry(expense).Reference(e => e.Producer).Load();
                 entities.Entry(expense).Reference(e => e.ExpenseTypes).Load();
 
-                var expenseDto = new ExpenseDto()
+                var expenseDto = new ExpenseDTO()
                 {
                     Id = expense.Id,
                     Date = (DateTime)expense.Date,

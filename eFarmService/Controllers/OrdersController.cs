@@ -11,10 +11,11 @@ using System;
 
 namespace eFarmService.Controllers
 {
+    [Authorize]
     public class OrdersController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(OrderDto))]
+        [ResponseType(typeof(OrderDTO))]
         [Route("api/orders/{orderId}")]
         public async Task<IHttpActionResult> GetOrderById(int orderId)
         {
@@ -45,7 +46,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Order not found!");
                 }
 
-                OrderDto orderDto = new OrderDto()
+                OrderDTO orderDto = new OrderDTO()
                 {
                     Id = order.Id,
                     Time = order.Time,
@@ -59,17 +60,12 @@ namespace eFarmService.Controllers
                     CustomerEmail = order.Users.Email
                 };
 
-                if (orderDto == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(orderDto);
             }
         }
 
         [HttpGet]
-        [ResponseType(typeof(OrderDto))]
+        [ResponseType(typeof(OrderDTO))]
         [Route("api/orders/all")]
         public async Task<IHttpActionResult> GetAllOrders()
         {
@@ -83,7 +79,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Authorization failed!");
                 }
 
-                var orders = await entities.Orders.Where(o => o.UserId.Equals(userId)).Select(o => new OrderDto()
+                var orders = await entities.Orders.Where(o => o.UserId.Equals(userId)).Select(o => new OrderDTO()
                 {
                     Id = o.Id,
                     Time = o.Time,
@@ -99,7 +95,7 @@ namespace eFarmService.Controllers
 
                 if (producerId > 0)
                 {
-                    orders = await entities.Orders.Where(o => o.ProducerId == producerId).Select(o => new OrderDto()
+                    orders = await entities.Orders.Where(o => o.ProducerId == producerId).Select(o => new OrderDTO()
                     {
                         Id = o.Id,
                         Time = o.Time,
@@ -112,11 +108,6 @@ namespace eFarmService.Controllers
                         Producer = o.Producer.Name,
                         CustomerEmail = o.Users.Email
                     }).ToListAsync();
-                }
-
-                if (orders == null || orders.Count <= 0)
-                {
-                    return NotFound();
                 }
 
                 return Ok(orders);
@@ -143,7 +134,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Authorization failed!");
                 }
 
-                // prevents situation where user buys from himself :)
+                // prevents situation where user buys from himself
                 if (order.ProducerId == producerId)
                 {
                     return BadRequest("Not authorized!");
@@ -176,7 +167,7 @@ namespace eFarmService.Controllers
                 entities.Entry(order).Reference(o => o.PaymentMethods).Load();
                 entities.Entry(order).Reference(o => o.DeliveryTypes).Load();
 
-                var orderDto = new OrderDto()
+                var orderDto = new OrderDTO()
                 {
                     Id = order.Id,
                     Time = order.Time,
@@ -217,7 +208,7 @@ namespace eFarmService.Controllers
                 item.Products = entities.Products.SingleOrDefault(p => p.Id == item.ProductId);
                 item.Orders = entities.Orders.SingleOrDefault(o => o.Id == item.OrderId);
 
-                // prevents situation where user buys items from different producers :)
+                // prevents situation where user buys items from different producers 
                 if (item.Orders.ProducerId == producerId || item.Products.ProducerId != item.Orders.ProducerId)
                 {
                     return BadRequest("Not authorized!");
@@ -240,7 +231,7 @@ namespace eFarmService.Controllers
                 entities.Entry(item).Reference(i => i.Products).Load();
                 entities.Entry(item).Reference(i => i.Orders).Load();
 
-                var itemDto = new OrderItemDto()
+                var itemDto = new OrderItemDTO()
                 {
                     OrderId = item.OrderId,
                     ProductId = item.ProductId,
@@ -359,7 +350,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(OrderItemDto))]
+        [ResponseType(typeof(OrderItemDTO))]
         [Route("api/orderitems/{orderId}/{productId}")]
         public async Task<IHttpActionResult> GetOrderItemByOrderIdAndProductId(int orderId, int productId)
         {
@@ -391,7 +382,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Not authorized!");
                 }
 
-                OrderItemDto orderItemDto = new OrderItemDto()
+                OrderItemDTO orderItemDto = new OrderItemDTO()
                 {
                     OrderId = item.OrderId,
                     ProductId = item.ProductId,
@@ -402,16 +393,12 @@ namespace eFarmService.Controllers
                     Note = item.Note
                 };
 
-                if (orderItemDto == null)
-                {
-                    return NotFound();
-                }
-
                 return Ok(orderItemDto);
             }
         }
+
         [HttpGet]
-        [ResponseType(typeof(OrderItemDto))]
+        [ResponseType(typeof(OrderItemDTO))]
         [Route("api/orderitems/{orderId}")]
         public async Task<IHttpActionResult> GetOrderItemsForOrder(int orderId)
         {
@@ -442,7 +429,7 @@ namespace eFarmService.Controllers
                     return BadRequest("Not authorized!");
                 }
 
-                var orderItems = await entities.OrderItems.Where(o => o.OrderId == orderId).Select(item => new OrderItemDto()
+                var orderItems = await entities.OrderItems.Where(o => o.OrderId == orderId).Select(item => new OrderItemDTO()
                 {
                     OrderId = item.OrderId,
                     ProductId = item.ProductId,
@@ -452,11 +439,6 @@ namespace eFarmService.Controllers
                     Price = (decimal?)item.Products.Price ?? 0,
                     Note = item.Note
                 }).ToListAsync();
-
-                if (orderItems == null || orderItems.Count <= 0)
-                {
-                    return NotFound();
-                }
 
                 return Ok(orderItems);
             }

@@ -21,7 +21,7 @@ namespace eFarmService.Controllers
         {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).ProducerId;
 
                 if (producerId < 1 || deviceId < 1)
                 {
@@ -36,7 +36,7 @@ namespace eFarmService.Controllers
                 }
 
                 var settingsForDevice = await entities.DeviceSettings.Include(d => d.Device).Select(d =>
-                     new SettingsDto()
+                     new SettingsDTO()
                      {
                          DeviceId = d.DeviceId,
                          MoistureMin = d.MoistureMin,
@@ -64,7 +64,7 @@ namespace eFarmService.Controllers
 
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
-                int producerId = entities.Users.SingleOrDefault(u => u.UserName == User.Identity.Name).ProducerId;
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).ProducerId;
 
                 if (producerId < 1 || deviceId < 1 || newSettings == null)
                 {
