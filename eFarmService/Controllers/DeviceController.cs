@@ -78,7 +78,7 @@ namespace eFarmService.Controllers
 
                 entities.Entry(deviceData).Reference(d => d.Device).Load();
 
-                var dataDto = new DeviceDataDto()
+                var dataDto = new DeviceDataDTO()
                 {
                     Id = deviceData.Id,
                     Time = deviceData.Time,
@@ -126,7 +126,7 @@ namespace eFarmService.Controllers
                 }
 
                 var settingsForDevice = await entities.DeviceSettings.Include(d => d.Device).Select(d =>
-                    new SettingsDto()
+                    new SettingsDTO()
                     {
                         DeviceId = d.DeviceId,
                         MoistureMin = d.MoistureMin,

@@ -16,7 +16,7 @@ namespace eFarmService.Controllers
     public class DeviceDataController : ApiController
     {
         [HttpGet]
-        [ResponseType(typeof(DeviceDataDto))]
+        [ResponseType(typeof(DeviceDataDTO))]
         [Route("api/device/{deviceId}/sensors/latest")]
         //fetching latest data sent from device that current user is connected to
         public async Task<IHttpActionResult> GetData(int deviceId)
@@ -53,7 +53,7 @@ namespace eFarmService.Controllers
 
                 var deviceData = await entities.DeviceData.Include(d => d.Device)
                             .Select(d =>
-                            new DeviceDataDto()
+                            new DeviceDataDTO()
                             {
                                 Id = d.Id,
                                 Time = d.Time,
@@ -77,7 +77,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(DeviceDataDto))]
+        [ResponseType(typeof(DeviceDataDTO))]
         [Route("api/device/{deviceId}/sensors/average/{date}")]
         //average for selected date
         public async Task<IHttpActionResult> GetAverageForOneDay(int deviceId, string date)
@@ -144,7 +144,7 @@ namespace eFarmService.Controllers
             double altitudeAvg = altitudeSum / count;
             double rainAvg = rainSum / count;
 
-            DeviceDataDto data = new DeviceDataDto
+            DeviceDataDTO data = new DeviceDataDTO
             {
                 Id = 0,
                 Time = shortDate,
@@ -167,7 +167,7 @@ namespace eFarmService.Controllers
         }
 
         [HttpGet]
-        [ResponseType(typeof(DeviceDataDto))]
+        [ResponseType(typeof(DeviceDataDTO))]
         [Route("api/device/{deviceId}/sensors/data")]
         //data from between two selected dates
         public async Task<IHttpActionResult> GetData(int deviceId, string from, string to)
@@ -209,7 +209,7 @@ namespace eFarmService.Controllers
                                 DbFunctions.TruncateTime(d.Time) >= fromDate && DbFunctions.TruncateTime(d.Time) <= toDate)
                                 .Include(d => d.Device)
                                 .Select(d =>
-                                new DeviceDataDto()
+                                new DeviceDataDTO()
                                 {
                                     Id = d.Id,
                                     Time = d.Time,
@@ -275,7 +275,7 @@ namespace eFarmService.Controllers
 
                 System.TimeSpan diff = now.Subtract(lastActive);
 
-                var deviceActivity = new DeviceActivityDto
+                var deviceActivity = new DeviceActivityDTO
                 {
                     DeviceId = deviceId,
                     LastActive = lastActive
