@@ -13,11 +13,12 @@ using System.Threading;
 
 namespace eFarmService.Controllers
 {
+    [Authorize]
     public class ProductsController : ApiController
     {
         [HttpGet]
         [AllowAnonymous]
-        [ResponseType(typeof(ProductDto))]
+        [ResponseType(typeof(ProductDTO))]
         [Route("api/producers/products/{producerId}")]
         public async Task<IHttpActionResult> Get(int producerId)
         {
@@ -29,7 +30,7 @@ namespace eFarmService.Controllers
                 }
 
                 var products = await entities.Products.Include(p => p.ProductTypes.ProductCategories).Where(p => p.ProducerId == producerId).Select(p =>
-                                new ProductDto()
+                                new ProductDTO()
                                 {
                                     Id = p.Id,
                                     Category = p.ProductTypes.ProductCategories.Category,
@@ -49,7 +50,7 @@ namespace eFarmService.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        [ResponseType(typeof(ProductDto))]
+        [ResponseType(typeof(ProductDTO))]
         [Route("api/products/{productId}")]
         public async Task<IHttpActionResult> GetProductById(int productId)
         {
@@ -61,7 +62,7 @@ namespace eFarmService.Controllers
                 }
 
                 var products = await entities.Products.Include(p => p.ProductTypes.ProductCategories).Where(p => p.Id == productId).Select(p =>
-                                new ProductDto()
+                                new ProductDTO()
                                 {
                                     Id = p.Id,
                                     Category = p.ProductTypes.ProductCategories.Category,
@@ -84,9 +85,17 @@ namespace eFarmService.Controllers
         public async Task<IHttpActionResult> UpdateProduct(int productId, [FromBody]Products newProduct) {
             using (eFarmDataEntities entities = new eFarmDataEntities())
             {
+                int producerId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).ProducerId;
+                string userId = entities.Users.SingleOrDefault(u => u.UserName.Equals(User.Identity.Name)).Id;
+
+                if (producerId < 0 || string.IsNullOrEmpty(userId))
+                {
+                    return BadRequest("Authorization failed!");
+                }
+
                 if (productId < 1)
                 {
-                    return NotFound();
+                    return BadRequest("Invalid product ID!");
                 }
 
                 if (newProduct == null)
@@ -99,6 +108,11 @@ namespace eFarmService.Controllers
                 if (product == null)
                 {
                     return NotFound();
+                }
+
+                if (product.ProducerId != producerId)
+                {
+                    return BadRequest("Authorization failed! Invalid product ID!");
                 }
 
                 product.ProductTypeId = newProduct.ProductTypeId;
@@ -129,7 +143,7 @@ namespace eFarmService.Controllers
                 product.ProducerId = producerId;
                 product.ProductTypes = entities.ProductTypes.SingleOrDefault(p => p.Id == product.ProductTypeId);
 
-                if (!ModelState.IsValid)
+                if (!ModelState.IsValid || product == null)
                 {
                     return BadRequest();
                 }
@@ -141,7 +155,7 @@ namespace eFarmService.Controllers
                 entities.Entry(product).Reference(p => p.Producer).Load();
                 entities.Entry(product).Reference(p => p.ProductTypes).Load();
 
-                var productDto = new ProductDto()
+                var productDto = new ProductDTO()
                 {
                     Id = product.Id,
                     Category = product.ProductTypes.ProductCategories.Category,
