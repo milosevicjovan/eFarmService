@@ -318,9 +318,9 @@ namespace eFarmService.Controllers
             return logins;
         }
 
-        // POST api/Account/Register
+        // POST api/Account/Register/ProducerUser
         [AllowAnonymous]
-        [Route("Register")]
+        [Route("Register/ProducerUser")]
         public async Task<IHttpActionResult> Register(RegisterBindingModel model)
         {
             if (!ModelState.IsValid)
@@ -329,6 +329,28 @@ namespace eFarmService.Controllers
             }
 
             var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Surname = model.Surname, ProducerId = model.ProducerId };
+
+            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
+        // POST api/Account/Register/GuestUser
+        [AllowAnonymous]
+        [Route("Register/GuestUser")]
+        public async Task<IHttpActionResult> RegisterGuest(RegisterBindingModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email, Name = model.Name, Surname = model.Surname };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
