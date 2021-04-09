@@ -14,6 +14,7 @@
           <Property Name="Description" Type="nvarchar(max)" />
           <Property Name="StatusId" Type="int" />
           <Property Name="ProducerId" Type="int" />
+          <Property Name="Duration" Type="decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="DeliveryTypes">
           <Key>
@@ -662,6 +663,7 @@
           <Property Name="ProducerId" Type="Int32" />
           <NavigationProperty Name="Producer" Relationship="Self.FK_ActivityCalendar_Producers" FromRole="ActivityCalendar" ToRole="Producer" />
           <NavigationProperty Name="StatusTypes" Relationship="Self.FK_ActivityCalendar_StatusTypes" FromRole="ActivityCalendar" ToRole="StatusTypes" />
+          <Property Name="Duration" Type="Decimal" Precision="18" Scale="2" />
         </EntityType>
         <EntityType Name="DeliveryTypes">
           <Key>
@@ -1313,6 +1315,7 @@
           <EntitySetMapping Name="ActivityCalendar">
             <EntityTypeMapping TypeName="eFarmDataModel.ActivityCalendar">
               <MappingFragment StoreEntitySet="ActivityCalendar">
+                <ScalarProperty Name="Duration" ColumnName="Duration" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Date" ColumnName="Date" />
                 <ScalarProperty Name="Description" ColumnName="Description" />

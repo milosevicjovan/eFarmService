@@ -68,7 +68,8 @@ namespace eFarmService.Controllers
                                             StatusId = (int)a.StatusId,
                                             Status = a.StatusTypes.StatusType,
                                             ProducerId = (int)a.ProducerId,
-                                            Producer = a.Producer.Name
+                                            Producer = a.Producer.Name,
+                                            Duration = (decimal)a.Duration
                                         }).ToListAsync();
 
                 return Ok(activities);
@@ -125,7 +126,8 @@ namespace eFarmService.Controllers
                     StatusId = (int)activity.StatusId,
                     Status = activity.StatusTypes.StatusType,
                     ProducerId = (int)activity.ProducerId,
-                    Producer = activity.Producer.Name
+                    Producer = activity.Producer.Name,
+                    Duration = (decimal)activity.Duration
                 };
 
                 return Ok(activityDto);
@@ -181,7 +183,8 @@ namespace eFarmService.Controllers
                     StatusId = (int)activity.StatusId,
                     Status = activity.StatusTypes.StatusType,
                     ProducerId = (int)activity.ProducerId,
-                    Producer = activity.Producer.Name
+                    Producer = activity.Producer.Name,
+                    Duration = (decimal)activity.Duration
                 };
 
                 return Created("", activityDto);
@@ -228,6 +231,7 @@ namespace eFarmService.Controllers
                 activity.Date = newActivity.Date;
                 activity.Description = newActivity.Description;
                 activity.StatusId = newActivity.StatusId;
+                activity.Duration = newActivity.Duration;
                 activity.StatusTypes = entities.StatusTypes.SingleOrDefault(s => s.Id == activity.StatusId);
 
                 await entities.SaveChangesAsync();

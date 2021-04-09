@@ -14,5 +14,6 @@ namespace eFarmService.Models
         public string Status { get; set; }
         public int ProducerId { get; set; }
         public string Producer { get; set; }
+        public decimal Duration { get; set; }
     }
 }

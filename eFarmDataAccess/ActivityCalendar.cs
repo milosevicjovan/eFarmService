@@ -19,6 +19,7 @@ namespace eFarmDataAccess
         public string Description { get; set; }
         public Nullable<int> StatusId { get; set; }
         public Nullable<int> ProducerId { get; set; }
+        public Nullable<decimal> Duration { get; set; }
     
         public virtual Producer Producer { get; set; }
         public virtual StatusTypes StatusTypes { get; set; }
