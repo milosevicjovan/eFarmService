@@ -222,10 +222,15 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="BasicAuthenticationAttribute.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ActivityCalendarController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\DeviceDataController.cs" />
+    <Compile Include="Controllers\ExpensesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\IncomesController.cs" />
     <Compile Include="Controllers\LocationsController.cs" />
+    <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Controllers\ProducersController.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\SettingsController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
@@ -236,12 +241,17 @@
     </Compile>
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\ActivityCalendar.cs" />
     <Compile Include="Models\Device.cs" />
     <Compile Include="Models\DeviceActivity.cs" />
     <Compile Include="Models\DeviceData.cs" />
+    <Compile Include="Models\Expense.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Producer.cs" />
+    <Compile Include="Models\Income.cs" />
     <Compile Include="Models\Location.cs" />
-    <Compile Include="Models\Products.cs" />
+    <Compile Include="Models\Order.cs" />
+    <Compile Include="Models\Product.cs" />
     <Compile Include="Models\Settings.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -307,6 +317,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Activity\" />
     <Folder Include="Views\Products\" />
   </ItemGroup>
   <ItemGroup>
@@ -319,7 +330,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\eFarmDataAccess\eFarmDataAccess.csproj">
-      <Project>{a2d4c304-ed3c-4600-9a9d-5e988dfdb0f9}</Project>
+      <Project>{603e008a-81d3-4fda-8f7e-092f4d0f01d0}</Project>
       <Name>eFarmDataAccess</Name>
     </ProjectReference>
   </ItemGroup>

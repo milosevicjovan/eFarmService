@@ -55,7 +55,6 @@ namespace eFarmService.Models
         [Required]
         public string Surname { get; set; }
 
-        [Required]
         public int ProducerId { get; set; }
     }
 
